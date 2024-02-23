@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:weightSum="12"
+    android:gravity="end"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="7"
+                android:paddingVertical="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtAmount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_weight="2"
+                    android:maxEms="1"
+                    android:gravity="center"
+                    android:text="100"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/txtNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="15sp"
+                        android:gravity="center_vertical"
+                        android:maxEms="1"
+                        android:text="It is a Note and it is a long note by the way"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/txtTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="12sp"
+                android:gravity="end|bottom"
+                android:layout_gravity="bottom"
+                android:alpha="0.8"
+                android:maxEms="1"
+                android:text="12.00 am"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

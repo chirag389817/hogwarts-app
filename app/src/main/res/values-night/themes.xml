@@ -14,4 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="android:textColor">#D3D3D3</item>
     </style>
+
+    <style name="Theme.Hogwarts.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:background">@color/gray</item>
+    </style>
+
 </resources>

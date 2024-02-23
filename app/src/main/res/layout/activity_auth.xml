@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,5 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragmentContainer"
-        android:name="com.csp.hogwarts.auth.MobileFragment"/>
+        android:name="com.csp.hogwarts.auth.MobileFragment"
+        tools:layout="@layout/fragment_mobile" />
 </androidx.appcompat.widget.LinearLayoutCompat>
