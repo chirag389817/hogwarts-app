@@ -1,24 +1,26 @@
 package com.csp.hogwarts;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.app.Dialog;
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
 
 import com.csp.hogwarts.adapter.AdapterHistory;
+import com.csp.hogwarts.adapter.AdapterMain;
 import com.csp.hogwarts.databinding.ActivityHistoryBinding;
-import com.csp.hogwarts.databinding.DialogTransactionBinding;
-
-import java.util.Objects;
+import com.csp.hogwarts.db.model.Loan;
+import com.csp.hogwarts.dialogs.TransactionDialog;
 
 public class HistoryActivity extends AppCompatActivity {
     private ActivityHistoryBinding binding;
-    private Dialog dialog;
-    private boolean isDlgGave;
+    private TransactionDialog transactionDialog;
+    private AdapterHistory adapterHistory;
+    private Loan loan;
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,59 +28,33 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
+        loan = getIntent().getSerializableExtra("loan", Loan.class);
+        adapterHistory = new AdapterHistory();
+        transactionDialog = new TransactionDialog(HistoryActivity.this);
+
         binding.histRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.histRecyclerView.setAdapter(new AdapterHistory());
-
-        DialogTransactionBinding dialogBinding = DialogTransactionBinding.inflate(getLayoutInflater());
-        dialogBinding.editAmount.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                dialogBinding.editAmount.setErrorEnabled(false);
-            }
-        });
-        dialogBinding.btnAdd.setOnClickListener(v->{
-            try {
-                double amount = Double.parseDouble(dialogBinding.editAmount.getEditText().getText().toString());
-                String note = Objects.requireNonNull(dialogBinding.editNote.getText()).toString();
-                if(amount<=0){
-                    dialogBinding.editAmount.setError("Invalid amount");
-                    return;
-                }
-                addTransaction(amount, note);
-            }catch (NumberFormatException e){
-                dialogBinding.editAmount.setError("Invalid amount");
-                e.printStackTrace();
-            }
-
-        });
-
-        dialog = new Dialog(this, R.style.Theme_Hogwarts_Dialog);
-        dialog.setContentView(dialogBinding.getRoot());
-        dialog.setCancelable(true);
+        binding.histRecyclerView.setAdapter(adapterHistory);
 
         binding.btnGave.setOnClickListener(v -> {
-            dialogBinding.txtTitle.setText("You Gave");
-            isDlgGave=true;
-            dialog.show();
+            transactionDialog.show(true, loan);
         });
         binding.btnGot.setOnClickListener(v->{
-            dialogBinding.txtTitle.setText("You Got");
-            isDlgGave=false;
-            dialog.show();
+            transactionDialog.show(false, loan);
         });
+
+        loadTransactions();
     }
 
-    private void addTransaction(double amount, String note) {
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadTransactions() {
+        MyApp.db.transaction().getAll(loan.loanId).observe(this, transactions -> {
+            if(transactions!=null){
+                adapterHistory.lstTransactions = transactions;
+                adapterHistory.notifyDataSetChanged();
+                binding.histRecyclerView.scrollToPosition(transactions.size()-1);
+            }
+        });
+        MyApp.db.loan().observeLoan(loan.loanId).observe(this, loan -> AdapterMain.bind(binding.itemLoan, loan));
     }
 }

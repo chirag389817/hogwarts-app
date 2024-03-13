@@ -17,17 +17,16 @@
         android:layout_marginVertical="30dp"
         android:text="Welcome to Hogwarts :)"/>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.csp.hogwarts.components.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTxtMobile"
-        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
         android:hint="Mobile Number">
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:inputType="phone"
             android:layout_height="match_parent"/>
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.csp.hogwarts.components.TextInputLayout>
 
     <Button
         android:id="@+id/btnContinue"

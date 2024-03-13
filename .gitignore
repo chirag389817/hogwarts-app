@@ -7,9 +7,12 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+ClodinaryCredentials.java
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+/google-services.json
+/app/src/main/java/com/csp/hogwarts/Credentials/*

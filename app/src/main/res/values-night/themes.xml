@@ -17,6 +17,7 @@
 
     <style name="Theme.Hogwarts.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:background">@color/gray</item>
+        <item name="colorOnPrimary">@color/actionbar</item>
     </style>
 
 </resources>

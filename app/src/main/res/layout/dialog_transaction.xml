@@ -17,7 +17,7 @@
         android:textColor="?colorPrimary"
         android:text="Add New Transaction"/>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.csp.hogwarts.components.TextInputLayout
         android:id="@+id/editAmount"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
@@ -27,19 +27,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="numberDecimal"/>
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.csp.hogwarts.components.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.csp.hogwarts.components.TextInputLayout
+        android:id="@+id/editNote"
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
         android:hint="Note"
         android:layout_height="wrap_content">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editNote"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+    </com.csp.hogwarts.components.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="add Date"
+        android:paddingHorizontal="20dp"/>
 
     <Button
         android:id="@+id/btnAdd"

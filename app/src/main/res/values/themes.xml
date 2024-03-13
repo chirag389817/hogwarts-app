@@ -19,6 +19,7 @@
     <style name="Theme.Hogwarts" parent="Base.Theme.Hogwarts" />
 
     <style name="Theme.Hogwarts.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorOnPrimary">@color/actionbar</item>
     </style>
 
 </resources>

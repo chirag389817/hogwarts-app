@@ -1,15 +1,14 @@
 package com.csp.hogwarts.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.csp.hogwarts.databinding.ActivityAuthBinding;
+import com.csp.hogwarts.utils.ImagePicker;
+
 import android.os.Bundle;
 
-import com.csp.hogwarts.R;
-
 public class AuthActivity extends AppCompatActivity {
-
+    private static final String TAG = "AuthActivity";
     private ActivityAuthBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

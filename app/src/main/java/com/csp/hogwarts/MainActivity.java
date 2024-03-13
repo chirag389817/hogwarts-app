@@ -1,33 +1,32 @@
 package com.csp.hogwarts;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.csp.hogwarts.adapter.AdapterMain;
-import com.csp.hogwarts.auth.Auth;
 import com.csp.hogwarts.auth.AuthActivity;
 import com.csp.hogwarts.databinding.ActivityMainBinding;
-import com.csp.hogwarts.databinding.DialogLoanBinding;
-import com.csp.hogwarts.net.NetClient;
-
-import java.util.Objects;
+import com.csp.hogwarts.dialogs.LoanDialog;
+import com.csp.hogwarts.user.UserActivity;
+import com.csp.hogwarts.utils.Permissions;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
     private ActivityMainBinding binding;
-    private NetClient netClient;
-    private Dialog dialog;
-    private Auth auth;
+    private AdapterMain adapterMain;
+    private LoanDialog loanDialog;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,39 +34,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
 
-        auth = new Auth(this);
-        netClient = new NetClient(this);
+        // checking if the user is authenticated or not
+        if(!MyApp.auth.checkAuthentication()) finish();
+
+        new Permissions(this).askForPermissions();
+
+        adapterMain = new AdapterMain(MainActivity.this);
+        loanDialog = new LoanDialog(this);
 
         binding.mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.mainRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        binding.mainRecyclerView.setAdapter(new AdapterMain());
+        binding.mainRecyclerView.setAdapter(adapterMain);
 
-        DialogLoanBinding loanBinding = DialogLoanBinding.inflate(getLayoutInflater());
-        loanBinding.btnSave.setOnClickListener(v -> {
-            String mobile = Objects.requireNonNull(loanBinding.editMobile.getText()).toString();
-            if(mobile.length()!=10){
-                loanBinding.editMobile.setError("Invalid mobile");
-                return;
-            }
-            // TODO: doPost on the server
-//            netClient.doPost("/loan/");
-            dialog.dismiss();
-        });
-        dialog = new Dialog(this, R.style.Theme_Hogwarts_Dialog);
-        dialog.setContentView(loanBinding.getRoot());
-        dialog.setCancelable(true);
+        loadLoans();
 
         binding.fab.setOnClickListener(v -> {
-            loanBinding.editMobile.setText("");
-            dialog.show();
+            loanDialog.show();
         });
-            startActivity(new Intent(this, HistoryActivity.class));
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadLoans() {
+        MyApp.db.loan().getAll().observe(MainActivity.this, loans -> {
+            if(loans!=null){
+                adapterMain.lstLoans = loans;
+                runOnUiThread(() -> adapterMain.notifyDataSetChanged());
+            }
+        });
     }
 
     @Override
-    protected void onResume() {
-        if(!auth.isAuthenticated())
-            startActivity(new Intent(this, AuthActivity.class));
-        super.onResume();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.profile){
+            startActivity(new Intent(this, UserActivity.class));
+        }
+        return true;
     }
 }

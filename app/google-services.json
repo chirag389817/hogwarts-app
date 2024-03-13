@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1042633539013",
+    "project_id": "hogwarts-9e7c6",
+    "storage_bucket": "hogwarts-9e7c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042633539013:android:4177a39197a48893e05fac",
+        "android_client_info": {
+          "package_name": "com.csp.hogwarts"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfjZ4QpeE69qGgqrZspjhHZKqJJRmsUjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
